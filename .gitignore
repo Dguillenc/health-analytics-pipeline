@@ -1,0 +1,21 @@
+# Datos personales de salud — NUNCA a GitHub
+data/
+*.db
+*.zip
+*.csv
+
+# Credenciales
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Entorno virtual
+venv/
+.venv/
+
+# VS Code
+.vscode/
