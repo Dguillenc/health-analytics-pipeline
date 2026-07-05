@@ -130,8 +130,6 @@ TELEGRAM_TOKEN=     # Token del bot de Telegram (@BotFather)
 TELEGRAM_CHAT_ID=   # Chat ID donde se envía el informe
 ```
 
-En GitHub Actions estas variables se configuran como **Secrets** en `Settings → Secrets and variables → Actions`.
-
 ---
 
 ## 🧠 Decisiones de diseño
@@ -144,9 +142,6 @@ Separa claramente las responsabilidades: Bronze garantiza que nunca se pierden l
 
 **¿Por qué Gemini Flash Lite y no Flash?**
 Para análisis de texto estructurado con instrucciones claras no se necesita el modelo más potente. Flash Lite tiene mayor cuota gratuita en el tier free (1.000 req/día vs 500) y menor latencia, lo que reduce los errores 503 por sobrecarga que son frecuentes en el tier gratuito durante horas pico.
-
-**¿Por qué buscar por carpeta y no por ID de archivo?**
-Health Connect puede generar un archivo nuevo con ID distinto en cada exportación. Apuntar al ID de la carpeta (que nunca cambia) y descargar el ZIP que encuentra dentro hace el pipeline resiliente a ese comportamiento, sin depender de actualizar manualmente el ID cada semana.
 
 ---
 
