@@ -39,7 +39,15 @@ Pipeline (GitHub Actions cada domingo)
 
 ## 📁 Estructura del proyecto
 
-ArchivoDescripciónpipeline/extract.py🥉 Bronze: descarga Drive y vuelca a DuckDBpipeline/transform_silver.py🥈 Silver: limpieza por dominiopipeline/transform_gold.py🥇 Gold: agregación diariapipeline/report.pyAnálisis con Gemini AIpipeline/notify.pyEnvío por Telegramtests/test_transform.py7 tests unitarios con pytest.github/workflows/weekly.ymlCron dominical automatizadoconfig.pyConfiguración centralizadamain.pyOrquestador del pipeline
+ArchivoDescripciónpipeline/extract.py  🥉 Bronze: descarga Drive y vuelca a DuckDB
+pipeline/transform_silver.py   🥈 Silver: limpieza por dominio
+pipeline/transform_gold.py     🥇 Gold: agregación diaria
+pipeline/report.py             Análisis con Gemini AI
+pipeline/notify.py             Envío por Telegram
+tests/test_transform.py        7 tests unitarios con pytest
+.github/workflows/weekly.yml   Cron dominical automatizado
+config.py                      Configuración centralizada
+main.py                        Orquestador del pipeline
 ---
 
 ## ⚙️ Cómo funciona
