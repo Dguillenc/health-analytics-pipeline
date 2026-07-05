@@ -10,16 +10,24 @@
 
 ---
 
-📐 Arquitectura
-Fuente de datos
+## 📐 Arquitectura
+
+Fuente de datos:
 CMF Watch Pro 2 → Health Connect → Google Drive (ZIP semanal)
+
 Pipeline — GitHub Actions cada domingo a las 9:00 AM
+
 🥉 Bronze — descarga el ZIP de Drive y vuelca las 8 tablas crudas a DuckDB sin modificar nada
+
 🥈 Silver — limpia y valida cada métrica: timestamps, filtros de sensor, traducción de códigos
+
 🥇 Gold — une todas las métricas en una tabla diaria lista para análisis
+
 🤖 Report — Gemini 2.5 Flash Lite analiza los datos y genera el informe
+
 📱 Notify — el informe llega por Telegram cada domingo por la mañana
 
+---
 
 ## 🛠️ Stack técnico
 
