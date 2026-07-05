@@ -45,8 +45,6 @@ Pipeline — GitHub Actions cada domingo a las 9:00 AM
 
 ## 📁 Estructura del proyecto
 
-## 📁 Estructura del proyecto
-
 | Archivo | Función |
 |---|---|
 | `pipeline/extract.py` | Bronze: descarga y vuelca a DuckDB |
