@@ -1,5 +1,3 @@
-import os
-import time
 import logging
 import zipfile
 import shutil
@@ -8,7 +6,6 @@ import sqlite3
 import duckdb
 import gdown
 import pandas as pd
-import requests
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -114,24 +111,18 @@ def extract_db() -> None:
 def load_bronze() -> None:
     """
     Vuelca las tablas crudas de SQLite a DuckDB (capa Bronze).
-
     Bronze = datos exactamente como vienen de la fuente, sin ninguna
     transformación. Si el dato original está mal, Bronze lo guarda
     igual — eso es intencionado. Silver y Gold son las capas que
     limpian y transforman.
-
     Convención de nombres: prefijo 'bronze_' en todas las tablas
     de esta capa, siguiendo la arquitectura Medallion.
     """
     logger.info("Volcando datos crudos a DuckDB (capa Bronze)...")
 
-    # Fuente: SQLite generado por Health Connect
     sqlite_conn = sqlite3.connect(DB_PATH)
-
-    # Destino: DuckDB, nuestra base de datos analítica
     duck_conn = duckdb.connect(str(DUCK_PATH))
 
-    # Tablas que exporta Health Connect en el .db
     tablas = [
         "sleep_session_record_table",
         "sleep_stages_table",
@@ -143,27 +134,24 @@ def load_bronze() -> None:
         "weight_record_table",
     ]
 
-    for tabla in tablas:
-        try:
-            # Leemos la tabla completa de SQLite a un DataFrame
-            df = pd.read_sql(f"SELECT * FROM {tabla}", sqlite_conn)
+    try:
+        for tabla in tablas:
+            try:
+                df = pd.read_sql(f"SELECT * FROM {tabla}", sqlite_conn)
+                duck_conn.register("df_temp", df)
+                duck_conn.execute(f"DROP TABLE IF EXISTS bronze_{tabla}")
+                duck_conn.execute(f"""
+                    CREATE TABLE bronze_{tabla} AS
+                    SELECT * FROM df_temp
+                """)
+                logger.info(f"  bronze_{tabla} — {len(df)} filas")
+            except Exception as e:
+                logger.warning(f"  No se pudo volcar {tabla}: {e}")
+    finally:
+        duck_conn.close()
+        sqlite_conn.close()
 
-            # Registramos el DataFrame como vista temporal en DuckDB
-            duck_conn.register("df_temp", df)
-
-    
-            # En Bronze siempre volcamos todo desde cero — es la capa
-            # de datos crudos, no necesitamos historial aquí.
-            duck_conn.execute(f"DROP TABLE IF EXISTS bronze_{tabla}")
-            duck_conn.execute(f"""
-                CREATE TABLE bronze_{tabla} AS
-                SELECT * FROM df_temp
-            """)
-
-            logger.info(f"  bronze_{tabla} — {len(df)} filas")
-
-        except Exception as e:
-            logger.warning(f"  No se pudo volcar {tabla}: {e}")
+    logger.info("Capa Bronze completada")
 
 
 def run() -> None:
