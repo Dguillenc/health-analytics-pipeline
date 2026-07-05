@@ -10,8 +10,6 @@
 
 ---
 
-## 📐 Arquitectura
-
 📐 Arquitectura
 Fuente de datos
 CMF Watch Pro 2 → Health Connect → Google Drive (ZIP semanal)
@@ -22,7 +20,6 @@ Pipeline — GitHub Actions cada domingo a las 9:00 AM
 🤖 Report — Gemini 2.5 Flash Lite analiza los datos y genera el informe
 📱 Notify — el informe llega por Telegram cada domingo por la mañana
 
----
 
 ## 🛠️ Stack técnico
 
