@@ -12,11 +12,12 @@
 
 ## 📐 Arquitectura
 
+📐 Arquitectura
 Fuente de datos
 CMF Watch Pro 2 → Health Connect → Google Drive (ZIP semanal)
-Pipeline (GitHub Actions cada domingo)
+Pipeline — GitHub Actions cada domingo a las 9:00 AM
 🥉 Bronze — descarga el ZIP de Drive y vuelca las 8 tablas crudas a DuckDB sin modificar nada
-🥈 Silver — limpia y valida cada métrica por separado: timestamps, filtros de sensor, traducción de códigos
+🥈 Silver — limpia y valida cada métrica: timestamps, filtros de sensor, traducción de códigos
 🥇 Gold — une todas las métricas en una tabla diaria lista para análisis
 🤖 Report — Gemini 2.5 Flash Lite analiza los datos y genera el informe
 📱 Notify — el informe llega por Telegram cada domingo por la mañana
@@ -39,15 +40,28 @@ Pipeline (GitHub Actions cada domingo)
 
 ## 📁 Estructura del proyecto
 
-ArchivoDescripciónpipeline/extract.py  🥉 Bronze: descarga Drive y vuelca a DuckDB
-pipeline/transform_silver.py   🥈 Silver: limpieza por dominio
-pipeline/transform_gold.py     🥇 Gold: agregación diaria
-pipeline/report.py             Análisis con Gemini AI
-pipeline/notify.py             Envío por Telegram
-tests/test_transform.py        7 tests unitarios con pytest
-.github/workflows/weekly.yml   Cron dominical automatizado
-config.py                      Configuración centralizada
-main.py                        Orquestador del pipeline
+📁 Estructura del proyecto
+pipeline/
+
+extract.py — 🥉 Bronze: descarga Drive y vuelca a DuckDB
+transform_silver.py — 🥈 Silver: limpieza por dominio
+transform_gold.py — 🥇 Gold: agregación diaria
+report.py — análisis con Gemini AI
+notify.py — envío por Telegram
+
+tests/
+
+test_transform.py — 7 tests unitarios con pytest
+
+.github/workflows/
+
+weekly.yml — cron dominical automatizado
+
+raíz
+
+config.py — configuración centralizada
+main.py — orquestador del pipeline
+requirements.txt — dependencias con versiones fijas
 ---
 
 ## ⚙️ Cómo funciona
