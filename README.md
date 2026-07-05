@@ -45,24 +45,21 @@ Pipeline — GitHub Actions cada domingo a las 9:00 AM
 
 ## 📁 Estructura del proyecto
 
-health-analytics-pipeline/
+## 📁 Estructura del proyecto
 
-pipeline/
-  extract.py            Bronze: descarga Drive y vuelca a DuckDB
-  transform_silver.py   Silver: limpieza por dominio
-  transform_gold.py     Gold: agregacion diaria
-  report.py             Analisis con Gemini AI
-  notify.py             Envio por Telegram
+| Archivo | Función |
+|---|---|
+| `pipeline/extract.py` | Bronze: descarga y vuelca a DuckDB |
+| `pipeline/transform_silver.py` | Silver: limpieza por dominio |
+| `pipeline/transform_gold.py` | Gold: agregación diaria |
+| `pipeline/report.py` | Análisis con Gemini AI |
+| `pipeline/notify.py` | Envío por Telegram |
+| `tests/test_transform.py` | 7 tests unitarios con pytest |
+| `.github/workflows/weekly.yml` | Cron dominical automatizado |
+| `config.py` | Configuración centralizada |
+| `main.py` | Orquestador del pipeline |
+| `requirements.txt` | Dependencias con versiones fijas |
 
-tests/
-  test_transform.py     7 tests unitarios con pytest
-
-.github/workflows/
-  weekly.yml            Cron dominical automatizado
-
-config.py               Configuracion centralizada
-main.py                 Orquestador del pipeline
-requirements.txt        Dependencias con versiones fijas
 ---
 
 ## ⚙️ Cómo funciona
