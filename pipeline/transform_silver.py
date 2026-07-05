@@ -79,7 +79,7 @@ def silver_sleep(duck: duckdb.DuckDBPyConnection) -> None:
     df["local_date"] = df["local_date"].apply(int_to_date)
 
     # Eficiencia del sueño: tiempo dormido real / tiempo total en cama
-    # clip(0,1) evita valores imposibles por errores del sensor
+
     df["sleep_efficiency"] = (
         (df["sleep_hours"] * 60 - df["awake_minutes"])
         / (df["sleep_hours"] * 60)
@@ -130,7 +130,7 @@ def silver_steps(duck: duckdb.DuckDBPyConnection) -> None:
 
     df["local_date"] = df["local_date"].apply(int_to_date)
 
-    # Filtramos días con 0 pasos — probablemente el reloj no se llevó
+    # Filtramos días con 0 pasos — probablemente no tenia puesto el reloj
     df = df[df["steps"] > 0].copy()
 
     duck.register("df_temp", df)
@@ -207,7 +207,7 @@ def silver_exercise(duck: duckdb.DuckDBPyConnection) -> None:
     df["local_date"] = df["local_date"].apply(int_to_date)
 
     # Traducimos código numérico a nombre legible
-    # fillna("Otro") para códigos que no están en el mapa
+
     df["exercise_type_name"] = df["exercise_type"].map(EXERCISE_TYPE_MAP).fillna("Otro")
 
     # Tipo dominante = el entreno con más minutos ese día
@@ -343,7 +343,7 @@ def silver_weight(duck: duckdb.DuckDBPyConnection) -> None:
     df["local_date"] = df["local_date"].apply(int_to_date)
 
     # Creamos un rango de fechas completo desde el primer registro
-    # hasta hoy para poder hacer el forward-fill
+
     all_dates = pd.DataFrame({
         "local_date": pd.date_range(
             start=df["local_date"].min(),

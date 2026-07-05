@@ -20,12 +20,10 @@ from config import (
     DATA_DIR
 )
 
-# Cargamos variables de entorno (solo necesario al ejecutar este
-# módulo directamente, main.py ya lo hace para el pipeline completo)
+
 load_dotenv()
 
-# Cada módulo tiene su propio logger — así en los logs sabemos
-# exactamente qué módulo generó cada mensaje
+# Cada módulo tiene su propio logger 
 logger = logging.getLogger(__name__)
 
 
@@ -73,7 +71,7 @@ def download_zip() -> None:
     logger.info(f"ZIP encontrado: {zip_reciente.name}")
 
     # Movemos el ZIP a su ubicación definitiva y borramos el temporal
-    # rename() mueve el archivo sin copiarlo — más eficiente
+
     if ZIP_PATH.exists():
         ZIP_PATH.unlink()  # borramos el ZIP anterior si existe
     zip_reciente.rename(ZIP_PATH)
@@ -93,7 +91,7 @@ def extract_db() -> None:
     logger.info("Extrayendo base de datos del ZIP...")
 
     with zipfile.ZipFile(ZIP_PATH, "r") as z:
-        # Buscamos el primer .db dentro del ZIP
+        
         db_name = next(
             (n for n in z.namelist() if n.endswith(".db")),
             None
@@ -106,7 +104,7 @@ def extract_db() -> None:
             )
 
         # Copiamos el .db del ZIP al disco
-        # "wb" = write binary, porque SQLite es un archivo binario
+        
         with z.open(db_name) as src, open(DB_PATH, "wb") as dst:
             dst.write(src.read())
 
@@ -131,11 +129,9 @@ def load_bronze() -> None:
     sqlite_conn = sqlite3.connect(DB_PATH)
 
     # Destino: DuckDB, nuestra base de datos analítica
-    # El archivo .duckdb está en data/ — nunca sube a GitHub
     duck_conn = duckdb.connect(str(DUCK_PATH))
 
     # Tablas que exporta Health Connect en el .db
-    # Si en el futuro añade nuevas tablas, solo hay que añadirlas aquí
     tablas = [
         "sleep_session_record_table",
         "sleep_stages_table",
@@ -155,8 +151,7 @@ def load_bronze() -> None:
             # Registramos el DataFrame como vista temporal en DuckDB
             duck_conn.register("df_temp", df)
 
-            # Borramos la tabla Bronze si ya existía de una ejecución
-            # anterior y la recreamos con los datos frescos de hoy.
+    
             # En Bronze siempre volcamos todo desde cero — es la capa
             # de datos crudos, no necesitamos historial aquí.
             duck_conn.execute(f"DROP TABLE IF EXISTS bronze_{tabla}")
@@ -188,8 +183,7 @@ def run() -> None:
 
 
 if __name__ == "__main__":
-    # Configuración de logging solo cuando ejecutamos este módulo
-    # directamente para pruebas — en producción lo configura main.py
+    
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",

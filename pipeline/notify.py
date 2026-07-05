@@ -50,7 +50,6 @@ def send_error(mensaje: str) -> None:
             timeout=30
         )
     except Exception:
-        # Si falla el envío del error, no queremos otro error —
-        # simplemente lo ignoramos y dejamos que el log lo capture
+       
         logger.error("No se pudo enviar el error por Telegram")
         

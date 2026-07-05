@@ -91,7 +91,7 @@ def build_gold(duck: duckdb.DuckDBPyConnection) -> None:
     logger.info(f"  gold_daily_metrics — {total} filas")
 
     # Verificación de calidad — avisamos si hay fechas duplicadas
-    # (no debería haber, pero mejor comprobarlo)
+
     duplicados = duck.execute("""
         SELECT COUNT(*) FROM (
             SELECT local_date, COUNT(*) as cnt
@@ -122,7 +122,7 @@ def get_weekly_data(duck: duckdb.DuckDBPyConnection) -> tuple:
     dm = duck.execute("SELECT * FROM gold_daily_metrics").df()
 
     # El último día con datos de sueño marca el fin de la semana
-    # (el sueño es la métrica más tardía en registrarse cada día)
+
     ultimo = pd.to_datetime(
         dm[dm["sleep_hours"] > 0]["local_date"].max()
     ).date()

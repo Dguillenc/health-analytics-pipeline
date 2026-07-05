@@ -4,8 +4,7 @@ from pipeline import extract, report, notify
 from pipeline.transform_silver import run as silver_run
 from pipeline.transform_gold import run as gold_run
 
-# Configuramos el logging una sola vez aquí, en el punto de entrada.
-# Todos los módulos heredan esta configuración automáticamente.
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
