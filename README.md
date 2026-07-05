@@ -12,15 +12,15 @@
 
 ## 📐 Arquitectura
 
-Smartwatch (CMF Watch Pro 2)
-    → Health Connect
-    → Google Drive (ZIP semanal)
-    → GitHub Actions (cada domingo 9:00 AM)
-    → Bronze: datos crudos en DuckDB
-    → Silver: limpieza y validación
-    → Gold: tabla diaria agregada
-    → Gemini 2.5 Flash Lite
-    → Telegram (informe semanal)
+Fuente de datos
+CMF Watch Pro 2 → Health Connect → Google Drive (ZIP semanal)
+Pipeline (GitHub Actions cada domingo)
+🥉 Bronze — descarga el ZIP de Drive y vuelca las 8 tablas crudas a DuckDB sin modificar nada
+🥈 Silver — limpia y valida cada métrica por separado: timestamps, filtros de sensor, traducción de códigos
+🥇 Gold — une todas las métricas en una tabla diaria lista para análisis
+🤖 Report — Gemini 2.5 Flash Lite analiza los datos y genera el informe
+📱 Notify — el informe llega por Telegram cada domingo por la mañana
+
 ---
 
 ## 🛠️ Stack técnico
@@ -39,21 +39,7 @@ Smartwatch (CMF Watch Pro 2)
 
 ## 📁 Estructura del proyecto
 
-health-analytics-pipeline/
-├── pipeline/
-│   ├── extract.py            # Bronze: Drive → DuckDB
-│   ├── transform_silver.py   # Silver: limpieza por dominio
-│   ├── transform_gold.py     # Gold: agregación diaria
-│   ├── report.py             # Análisis con Gemini AI
-│   └── notify.py             # Envío por Telegram
-├── tests/
-│   └── test_transform.py     # 7 tests unitarios
-├── .github/workflows/
-│   └── weekly.yml            # Cron dominical
-├── config.py
-├── main.py
-└── requirements.txt
-
+ArchivoDescripciónpipeline/extract.py🥉 Bronze: descarga Drive y vuelca a DuckDBpipeline/transform_silver.py🥈 Silver: limpieza por dominiopipeline/transform_gold.py🥇 Gold: agregación diariapipeline/report.pyAnálisis con Gemini AIpipeline/notify.pyEnvío por Telegramtests/test_transform.py7 tests unitarios con pytest.github/workflows/weekly.ymlCron dominical automatizadoconfig.pyConfiguración centralizadamain.pyOrquestador del pipeline
 ---
 
 ## ⚙️ Cómo funciona
