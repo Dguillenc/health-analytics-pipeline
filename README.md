@@ -62,6 +62,7 @@ raíz
 config.py — configuración centralizada
 main.py — orquestador del pipeline
 requirements.txt — dependencias con versiones fijas
+
 ---
 
 ## ⚙️ Cómo funciona
