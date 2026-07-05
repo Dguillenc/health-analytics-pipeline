@@ -12,31 +12,15 @@
 
 ## 📐 Arquitectura
 
-CMF Watch Pro 2
-│
-│  Health Connect (exportación automática semanal)
-▼
-Google Drive (ZIP semanal)
-│
-│  GitHub Actions (cron dominical — 9:00 AM)
-▼
-┌─────────────────────────────────────────────────┐
-│              MEDALLION ARCHITECTURE             │
-│                                                 │
-│  🥉 BRONZE   Datos crudos sin transformar       │
-│      └─ 8 tablas SQLite → DuckDB                │
-│                                                 │
-│  🥈 SILVER   Limpieza y validación por dominio  │
-│      └─ Timestamps, filtros, traducción         │
-│                                                 │
-│  🥇 GOLD     Agregación diaria lista para uso   │
-│      └─ gold_daily_metrics (1 fila = 1 día)     │
-└─────────────────────────────────────────────────┘
-│
-│  Google Gemini 2.5 Flash Lite
-▼
-Telegram Bot (informe semanal)
-
+Smartwatch (CMF Watch Pro 2)
+    → Health Connect
+    → Google Drive (ZIP semanal)
+    → GitHub Actions (cada domingo 9:00 AM)
+    → Bronze: datos crudos en DuckDB
+    → Silver: limpieza y validación
+    → Gold: tabla diaria agregada
+    → Gemini 2.5 Flash Lite
+    → Telegram (informe semanal)
 ---
 
 ## 🛠️ Stack técnico
@@ -56,26 +40,19 @@ Telegram Bot (informe semanal)
 ## 📁 Estructura del proyecto
 
 health-analytics-pipeline/
-│
 ├── pipeline/
-│   ├── init.py
-│   ├── extract.py            # 🥉 Bronze: Drive → SQLite → DuckDB
-│   ├── transform_silver.py   # 🥈 Silver: limpieza por dominio
-│   ├── transform_gold.py     # 🥇 Gold: agregación diaria
+│   ├── extract.py            # Bronze: Drive → DuckDB
+│   ├── transform_silver.py   # Silver: limpieza por dominio
+│   ├── transform_gold.py     # Gold: agregación diaria
 │   ├── report.py             # Análisis con Gemini AI
 │   └── notify.py             # Envío por Telegram
-│
 ├── tests/
-│   └── test_transform.py     # 7 tests unitarios con pytest
-│
-├── .github/
-│   └── workflows/
-│       └── weekly.yml        # Cron dominical automatizado
-│
-├── config.py                 # Configuración centralizada
-├── main.py                   # Orquestador del pipeline
-├── requirements.txt          # Dependencias con versiones fijas
-└── .env.example              # Plantilla de variables de entorno
+│   └── test_transform.py     # 7 tests unitarios
+├── .github/workflows/
+│   └── weekly.yml            # Cron dominical
+├── config.py
+├── main.py
+└── requirements.txt
 
 ---
 
