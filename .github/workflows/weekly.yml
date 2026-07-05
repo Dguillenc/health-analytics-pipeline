@@ -1,0 +1,40 @@
+name: Health Analytics Pipeline
+
+on:
+  # Ejecuta el pipeline cada domingo a las 9:00 AM hora española (8:00 UTC)
+  # Health Connect genera el ZIP los sábados, así que el domingo ya está listo
+  schedule:
+    - cron: '0 8 * * 0'
+
+  # Permite ejecutarlo manualmente desde GitHub → Actions → Run workflow
+  # Útil para probar sin esperar al domingo
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar tests
+        run: python -m pytest tests/ -v
+        # Si algún test falla, el pipeline se detiene aquí
+        # y no ejecuta el informe con datos potencialmente erróneos
+
+      - name: Ejecutar pipeline completo
+        env:
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+          GEMINI_API_KEY:   ${{ secrets.GEMINI_API_KEY }}
+          TELEGRAM_TOKEN:   ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python main.py
