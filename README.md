@@ -8,6 +8,7 @@
 ![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash_Lite-4285F4?logo=google&logoColor=white)
 ![Tests](https://img.shields.io/badge/Tests-7_passed-brightgreen?logo=pytest&logoColor=white)
 ![Pipeline](https://github.com/Dguillenc/Health-analytics-pipeline/actions/workflows/weekly.yml/badge.svg)
+
 ---
 
 ## 📐 Arquitectura
