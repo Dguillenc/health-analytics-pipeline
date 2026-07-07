@@ -55,8 +55,6 @@ def build_prompt(semana: list, dm: pd.DataFrame, ultimo) -> str:
     Construye el prompt que se envía a Gemini con los datos
     de la semana y las estadísticas comparativas.
 
-    Un buen prompt es tan importante como un buen modelo —
-    cuanto más estructurado y específico, mejor el análisis.
     """
     tabla = tabla_texto(semana)
 
@@ -119,10 +117,6 @@ def call_gemini(prompt: str, max_retries: int = 5) -> str:
     """
     Llama a la API de Gemini con reintentos automáticos.
 
-    Si Gemini devuelve 503 (sobrecarga temporal del servidor),
-    esperamos un tiempo creciente antes de reintentar.
-    Esto se llama backoff progresivo y es el estándar para
-    manejar APIs externas en pipelines de producción.
     """
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
@@ -164,7 +158,6 @@ def call_gemini(prompt: str, max_retries: int = 5) -> str:
 
 def run() -> tuple:
     """
-    Punto de entrada del módulo de reporting.
     Lee los datos de Gold, construye el prompt y llama a Gemini.
     Devuelve (tabla_str, analisis, fecha_inicio, fecha_fin)
     para que notify.py los envíe por Telegram.
