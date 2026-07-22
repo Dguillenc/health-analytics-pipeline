@@ -3,8 +3,8 @@ name: Health Analytics Pipeline
 on:
   # Ejecuta el pipeline cada domingo a las 9:00 AM hora española (8:00 UTC)
   # Health Connect genera el ZIP los sábados, así que el domingo ya está listo
-  schedule:
-    - cron: '0 8 * * 0'
+  #schedule:
+     # cron: '0 8 * * 0'
 
   # Permite ejecutarlo manualmente desde GitHub → Actions → Run workflow
   # Útil para probar sin esperar al domingo
